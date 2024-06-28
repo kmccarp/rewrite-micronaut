@@ -49,8 +49,8 @@ public class BeanPropertyCapitalizationStrategy extends Recipe {
         @Override
         public J.MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
             J.MethodInvocation mi = super.visitMethodInvocation(method, ctx);
-            if ((BEAN_PROPERTY_METHOD.matches(mi) || REQUIRED_BEAN_PROPERTY_METHOD.matches(mi)) && mi.getArguments().get(0) instanceof J.Literal) {
-                J.Literal propertyNameArg = (J.Literal) mi.getArguments().get(0);
+            if ((BEAN_PROPERTY_METHOD.matches(mi) || REQUIRED_BEAN_PROPERTY_METHOD.matches(mi)) && mi.getArguments().getFirst() instanceof J.Literal) {
+                J.Literal propertyNameArg = (J.Literal) mi.getArguments().getFirst();
                 String sVal = String.valueOf(propertyNameArg.getValue());
                 final String newValue = sVal.substring(0, 1).toLowerCase() + sVal.substring(1);
                 if (!sVal.equals(newValue)) {

@@ -30,17 +30,19 @@ public class UpdateSecurityYamlIfNeeded extends Recipe {
     private final List<Recipe> recipeList = new ArrayList<>();
 
     private final String newYamlKeysSnippet =
-            "generator:\n" +
-            "  access-token:\n" +
-            "    expiration:\n" +
-            "cookie:\n" +
-            "  enabled:\n" +
-            "  cookie-max-age:\n" +
-            "  cookie-path:\n" +
-            "  cookie-domain:\n" +
-            "  cookie-same-site:\n" +
-            "bearer:\n" +
-            "  enabled:";
+            """
+            generator:
+              access-token:
+                expiration:
+            cookie:
+              enabled:
+              cookie-max-age:
+              cookie-path:
+              cookie-domain:
+              cookie-same-site:
+            bearer:
+              enabled:\
+            """;
 
     private static final String TOKEN_PATH = "$.micronaut.security.token";
 

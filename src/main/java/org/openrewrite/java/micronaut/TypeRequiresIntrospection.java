@@ -66,8 +66,7 @@ public class TypeRequiresIntrospection extends ScanningRecipe<TypeRequiresIntros
             public @Nullable Tree visit(@Nullable Tree tree, ExecutionContext ctx) {
                 // look for classes requiring Introspected types
                 FindParamsAndReturnTypes findParamsAndReturnTypes = new FindParamsAndReturnTypes();
-                if (tree instanceof J.CompilationUnit) {
-                    J.CompilationUnit cu = (J.CompilationUnit) tree;
+                if (tree instanceof J.CompilationUnit cu) {
                     for (J.ClassDeclaration classDeclaration : cu.getClasses()) {
                         if (parentRequiresIntrospection(classDeclaration.getType())) {
                             findParamsAndReturnTypes.visit(classDeclaration, acc.getIntrospectableTypes());
@@ -84,8 +83,7 @@ public class TypeRequiresIntrospection extends ScanningRecipe<TypeRequiresIntros
         return new TreeVisitor<Tree, ExecutionContext>() {
             @Override
             public @Nullable Tree visit(@Nullable Tree tree, ExecutionContext ctx) {
-                if (tree instanceof J.CompilationUnit) {
-                    J.CompilationUnit cu = (J.CompilationUnit) tree;
+                if (tree instanceof J.CompilationUnit cu) {
                     for (J.ClassDeclaration aClass : cu.getClasses()) {
                         if (acc.getIntrospectableTypes().contains(aClass.getType())) {
                             return new AddIntrospectionAnnotationVisitor().visit(cu, acc.getIntrospectableTypes());
@@ -112,8 +110,7 @@ public class TypeRequiresIntrospection extends ScanningRecipe<TypeRequiresIntros
 
             // method parameters need introspection
             for (Statement param : method.getParameters()) {
-                if (param instanceof J.VariableDeclarations) {
-                    J.VariableDeclarations variableDeclarations = (J.VariableDeclarations) param;
+                if (param instanceof J.VariableDeclarations variableDeclarations) {
                     for (J.VariableDeclarations.NamedVariable namedVariable : variableDeclarations.getVariables()) {
                         if (namedVariable.getType() instanceof JavaType.Parameterized) {
                             for (JavaType type : ((JavaType.Parameterized) namedVariable.getType()).getTypeParameters()) {

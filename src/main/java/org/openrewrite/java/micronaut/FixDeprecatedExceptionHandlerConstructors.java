@@ -124,7 +124,7 @@ public class FixDeprecatedExceptionHandlerConstructors extends Recipe {
                             Optional<J.Identifier> errorResponseVar = md.getParameters().stream().filter(J.VariableDeclarations.class::isInstance)
                                     .map(J.VariableDeclarations.class::cast)
                                     .filter(v -> TypeUtils.isOfClassType(v.getType(), errorResponseProcessorFqn))
-                                    .map(v -> v.getVariables().get(0).getName()).findFirst();
+                                    .map(v -> v.getVariables().getFirst().getName()).findFirst();
                             if (errorResponseVar.isPresent() && md.getBody() != null && getCursor().getParent() != null) {
                                 JavaTemplate superInvocationTemplate = JavaTemplate.builder("super(#{any(" + errorResponseProcessorFqn + ")});")
                                         .contextSensitive()
@@ -167,8 +167,8 @@ public class FixDeprecatedExceptionHandlerConstructors extends Recipe {
             }
 
             private boolean isErrorProcessorParameter(Statement statement) {
-                return statement instanceof J.VariableDeclarations
-                       && TypeUtils.isOfClassType(((J.VariableDeclarations) statement).getType(), errorResponseProcessorFqn);
+                return statement instanceof J.VariableDeclarations vd
+                       && TypeUtils.isOfClassType(vd.getType(), errorResponseProcessorFqn);
             }
 
             private boolean isClassExceptionHandler(J.ClassDeclaration cd) {
@@ -179,9 +179,9 @@ public class FixDeprecatedExceptionHandlerConstructors extends Recipe {
             private J.Block moveLastStatementToFirst(J.Block block) {
                 if (block.getStatements().size() > 1) {
                     List<Statement> statements = block.getStatements();
-                    Statement stmt = statements.get(statements.size() - 1);
+                    Statement stmt = statements.getLast();
                     statements.remove(stmt);
-                    statements.add(0, stmt);
+                    statements.addFirst(stmt);
                     block = block.withStatements(statements);
                 }
                 return block;

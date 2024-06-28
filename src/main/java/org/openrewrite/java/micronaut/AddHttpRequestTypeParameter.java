@@ -53,8 +53,10 @@ public class AddHttpRequestTypeParameter extends Recipe {
 
     @Override
     public String getDescription() {
-        return "Add an `HttpRequest` type parameter to a class `implements` statement for interfaces that have been " +
-               "generically parameterized where they previously specified `HttpRequest` explicitly.";
+        return """
+               Add an `HttpRequest` type parameter to a class `implements` statement for interfaces that have been \
+               generically parameterized where they previously specified `HttpRequest` explicitly.\
+               """;
     }
 
     @Override
